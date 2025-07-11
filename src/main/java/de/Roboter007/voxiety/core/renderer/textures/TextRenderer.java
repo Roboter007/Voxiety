@@ -2,7 +2,6 @@ package de.Roboter007.voxiety.core.renderer.textures;
 
 import de.Roboter007.voxiety.core.renderer.font.Font;
 import de.Roboter007.voxiety.core.renderer.shader.Shader;
-import de.Roboter007.voxiety.core.renderer.textures.Glyph;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;

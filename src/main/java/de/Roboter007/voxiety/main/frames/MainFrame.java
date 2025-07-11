@@ -6,10 +6,7 @@ import de.Roboter007.voxiety.core.renderer.components.Sprite;
 import de.Roboter007.voxiety.core.renderer.components.SpriteRenderer;
 import de.Roboter007.voxiety.core.renderer.font.Font;
 import de.Roboter007.voxiety.core.renderer.shader.Shader;
-import de.Roboter007.voxiety.core.renderer.textures.Glyph;
-import de.Roboter007.voxiety.core.renderer.textures.TextRenderer;
-import de.Roboter007.voxiety.core.renderer.textures.Texture;
-import de.Roboter007.voxiety.core.renderer.textures.Transform;
+import de.Roboter007.voxiety.core.renderer.textures.*;
 import de.Roboter007.voxiety.main.VoxWindow;
 import de.Roboter007.voxiety.main.world.blocks.Blocks;
 import de.Roboter007.voxiety.utils.VoxAssets;
@@ -17,6 +14,8 @@ import de.Roboter007.voxiety.utils.VoxPaths;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
+
+import java.nio.file.Path;
 
 public class MainFrame extends Frame {
 
@@ -34,8 +33,8 @@ public class MainFrame extends Frame {
         System.out.println("Element List: " + this.voxElementList);
 
         try {
-            Font font = new Font(VoxPaths.access().getResourcePath("voxiety/fonts/youthanasia_font.ttf"), 32f);
-            TextRenderer textRenderer = new TextRenderer((Shader) VoxAssets.getAsset("youthanasia_font.ttf"), font);
+            Font font = new Font(Path.of(VoxPaths.access().getResourcePath("voxiety/fonts/youthanasia_font.ttf")), 32f);
+            TextRenderer textRenderer = new TextRenderer((Shader) VoxAssets.getAsset("default.glsl"), font);
 
 // in render():
             textRenderer.renderText(
