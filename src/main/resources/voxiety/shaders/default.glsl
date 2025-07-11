@@ -1,48 +1,48 @@
 #type vertex
 #version 330 core
-layout (location=0) in vec3 aPos;
-layout (location=1) in vec4 aColor;
-layout (location=2) in vec2 aTexCoords;
-layout (location=3) in float aTexId;
 
-uniform mat4 uProjection;
+// Default Vertex Shader mit TexCoords
+
+layout(location = 0) in vec3 aPos;        // Position im Modell‑Raum
+layout(location = 1) in vec2 aTexCoord;   // UV-Koordinate
+
+uniform mat4 uModel;
 uniform mat4 uView;
+uniform mat4 uProjection;
 
-out vec4 fColor;
-out vec2 fTexCoords;
-out float fTexId;
+out vec2 vTexCoord;  // an Fragment‑Shader weiterreichen
 
-void main()
-{
-    fColor = aColor;
-    fTexCoords = aTexCoords;
-    fTexId = aTexId;
-
-    gl_Position = uProjection * uView * vec4(aPos, 1.0);
+void main() {
+    gl_Position = uProjection * uView * uModel * vec4(aPos, 1.0);
+    vTexCoord  = aTexCoord;
 }
+
 
 #type fragment
 #version 330 core
 
-in vec4 fColor;
-in vec2 fTexCoords;
-in float fTexId;
+// Fragment Shader, der optional ein Font‑Atlas sampelt
 
-uniform sampler2D uTextures[8];
+in vec2 vTexCoord;
+out vec4 FragColor;
 
-out vec4 color;
+// Wenn du keinen Font renderst, kannst du diese Uniform auf (0,0,0,1) setzen
+uniform vec4 uTextColor;
 
-void main()
-{
-    if (fTexId > 0) {
-        int id = int(fTexId);
+// Der Atlas, in dem deine Glyphe als R‑Kanal abgelegt ist
+uniform sampler2D uFontAtlas;
 
-        // Alpha aus RED-Textur extrahieren
-        float glyphAlpha = texture(uTextures[id], fTexCoords).r;
+// Ein Flag, ob wir Textur-Rendering wollen (1) oder nur Flat‑Color (0)
+uniform int uUseTexture;
 
-        // Texturwert als Alphamaske benutzen
-        color = vec4(fColor.rgb, fColor.a * glyphAlpha);
-    } else {
-        color = fColor;
+void main() {
+    vec4 baseColor = uTextColor;
+
+    if (uUseTexture == 1) {
+        // texture(...).r ist dein Alpha‑Mask‑Wert
+        float alpha = texture(uFontAtlas, vTexCoord).r;
+        baseColor.a *= alpha;
     }
+
+    FragColor = baseColor;
 }

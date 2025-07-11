@@ -4,12 +4,17 @@ import de.Roboter007.voxiety.core.cameras.Camera;
 import de.Roboter007.voxiety.core.renderer.VoxElement;
 import de.Roboter007.voxiety.core.renderer.components.Sprite;
 import de.Roboter007.voxiety.core.renderer.components.SpriteRenderer;
+import de.Roboter007.voxiety.core.renderer.font.Font;
+import de.Roboter007.voxiety.core.renderer.shader.Shader;
 import de.Roboter007.voxiety.core.renderer.textures.Glyph;
+import de.Roboter007.voxiety.core.renderer.textures.TextRenderer;
 import de.Roboter007.voxiety.core.renderer.textures.Texture;
 import de.Roboter007.voxiety.core.renderer.textures.Transform;
 import de.Roboter007.voxiety.main.VoxWindow;
 import de.Roboter007.voxiety.main.world.blocks.Blocks;
 import de.Roboter007.voxiety.utils.VoxAssets;
+import de.Roboter007.voxiety.utils.VoxPaths;
+import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
@@ -28,6 +33,26 @@ public class MainFrame extends Frame {
         this.camera = new Camera(new Vector2f());
         System.out.println("Element List: " + this.voxElementList);
 
+        try {
+            Font font = new Font(VoxPaths.access().getResourcePath("voxiety/fonts/youthanasia_font.ttf"), 32f);
+            TextRenderer textRenderer = new TextRenderer((Shader) VoxAssets.getAsset("youthanasia_font.ttf"), font);
+
+// in render():
+            textRenderer.renderText(
+                    "Hallo Welt!",
+                    50, VoxWindow.windowHeight() - 50,
+                    1f, 1f, 1f, 1f
+            );
+
+            textRenderer.renderText(
+                    "Score: 1234",
+                    50, VoxWindow.windowHeight() - 100,
+                    1f, 0.8f, 0.2f, 1f
+            );
+        } catch (Exception e) {
+            System.out.println("Failed to render Text");
+        }
+
         /*Text text = new Text();
         text.addText("Deine MUDDA!!!", VoxFonts.YOUTHANASIA_FONT, 24, new Vector4f());
 
@@ -35,11 +60,12 @@ public class MainFrame extends Frame {
             renderTexture(voxElement);
         } */
 
+        /*
         Glyph glyph = new Glyph('d', 20);
         VoxElement voxElement = new VoxElement(new Transform(new Vector2f(100, 100), new Vector2f(100, 100)), 999);
-        voxElement.addComponent(new SpriteRenderer(new Sprite(glyph)));
+        voxElement.addComponent(new SpriteRenderer(new Sprite(glyph))); */
 
-        renderTexture(voxElement);
+        //renderTexture(voxElement);
     }
 
 
